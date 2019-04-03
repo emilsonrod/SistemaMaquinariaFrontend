@@ -5,20 +5,7 @@
      fxLayoutAlign.gt-md="space-around center"
      fxLayoutGap="10px">
 
-  <mat-card *ngIf="item" fxFlex>
-    <mat-card-header>
-      <div mat-card-avatar></div>
-      <mat-card-title>
-        <h3>{{item.name | uppercase}}</h3>
-      </mat-card-title>
-    </mat-card-header>
-    <img mat-card-image src={{item.image}} alt={{item.name}}>
-    <mat-card-content>
-      <p>{{item.description}}
-      </p>
-    </mat-card-content>
-  </mat-card>
-
+  
   <mat-card *ngIf="employee" fxFlex>
     <mat-card-header>
       <div mat-card-avatar></div>

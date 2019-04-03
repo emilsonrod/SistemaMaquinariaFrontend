@@ -1,0 +1,70 @@
+<form novalidate (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+  <mat-dialog-content>
+    <p>
+      <mat-form-field color="{{marca.invalid && !marca.pristine ? 'warn' : 'primary'}}">
+        <input matInput placeholder="Marca" type="text" [(ngModel)]="item.marca" name="marca"
+               #marca="ngModel" required>
+        <mat-hint>
+         <span [hidden]="marca.pristine">
+            <span [hidden]="!marca.errors?.required">marca is required</span>
+         </span>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field color="{{modelo.invalid && !modelo.pristine ? 'warn' : 'primary'}}">
+        <input matInput placeholder="Modelo" type="text" [(ngModel)]="item.modelo" name="modelo"
+               #modelo="ngModel" required>
+        <mat-hint>
+         <span [hidden]="modelo.pristine">
+          <span [hidden]="!modelo.errors?.required">modelo is required</span>
+         </span>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field color="{{capacidad.invalid && !capacidad.pristine ? 'warn' : 'primary'}}">
+        <input matInput placeholder="Capacidad" type="text" [(ngModel)]="item.capacidad" name="capacidad"
+               #capacidad="ngModel" required>
+        <mat-hint>
+         <span [hidden]="capacidad.pristine">
+         <span [hidden]="!capacidad.errors?.required">capacidad is required</span>
+         </span>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field color="{{precio.invalid && !precio.pristine ? 'warn' : 'primary'}}">
+        <input matInput placeholder="Precio" type="text" [(ngModel)]="item.precio" name="precio"
+               #precio="ngModel" required>
+        <mat-hint>
+         <span [hidden]="precio.pristine">
+         <span [hidden]="!precio.errors?.required">precio is required</span>
+         </span>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select [(ngModel)]="tipoMaquinaria.id" name="tipoMaquinaria">
+          <mat-option *ngFor="let tipo of listaTipos" [value]="tipo.id">
+            {{tipo.nombreTipoMaquinaria}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <label class="image-upload-container btn btn-bwm">
+        <span>Select Image</span>
+        <input #imageInput
+               type="file"
+               accept="image/*"
+               (change)="processFile(imageInput)">
+      </label>
+    </p>
+    <p *ngIf="selectedFile">
+      <img [attr.src]="selectedFile.src" id="photo-id" width="50px" height="50px"/>
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <span class="flex-spacer"></span>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="loginForm.form.invalid">
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

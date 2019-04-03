@@ -3,6 +3,51 @@
      fxLayoutGap="10px">
 
   <div fxFlex>
+    <div style="display: inline-block; width: 200px;">
+        <label class="">Filtrar por tipo:</label><br>
+        <mat-form-field>
+          <mat-select [(ngModel)]="tipoMaquinaria.id" name="tipoMaquinaria" (selectionChange)="FilterByTipo()">
+            <mat-option *ngFor="let tipo of listaTipos" [value]="tipo.id">
+              {{tipo.nombreTipoMaquinaria}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div style="display: inline-block; width: 300px;">
+        <label class="">Filtrar por Marca:</label><br>
+        <mat-form-field>
+            <input matInput placeholder="Marca" type="text" [(ngModel)]="marcaField" name="marca"
+            #marca="ngModel">          
+        </mat-form-field><button (click)="FilterByMarca()" mat-button>Buscar</button>
+    </div>
+    <div style="display: inline-block; width: 300px;">
+        <label class="">Filtrar por Modelo:</label><br>
+        <mat-form-field>
+            <input matInput placeholder="Modelo" type="text" [(ngModel)]="modeloField" name="modelo"
+                 #modelo="ngModel" required>
+        </mat-form-field><button (click)="FilterByModelo()" mat-button>Buscar</button>
+    </div>
+    <div style="display: inline-block; width: 300px;">
+        <label class="">Filtrar por Capacidad:</label><br>
+        <mat-form-field>
+            <input matInput placeholder="Capacidad" type="text" [(ngModel)]="capacidadField" name="capacidad"
+                 #capacidad="ngModel" required>          
+        </mat-form-field><button (click)="FilterByCapacidad()" mat-button>Buscar</button>
+    </div>
+    <div style="display: inline-block; width: 300px;">
+        <label class="">Filtrar por Precio:</label><br>
+        <mat-form-field>
+            <input matInput placeholder="Precio" type="text" [(ngModel)]="precioField" name="precio"
+                #precio="ngModel" required>
+        </mat-form-field><button (click)="FilterByPrecio()" mat-button>Buscar</button>
+    </div>
+    <div style="display: inline-block; width: 300px;">
+        <label class="">Cargar todos:</label><br>
+        <button (click)="LoadAll()" mat-button>Cargar</button>
+    </div>
+  </div>
+
+  <div fxFlex>
     <div>
       <h3>Catalogo</h3>
       <hr>
@@ -14,12 +59,17 @@
     [propiedadDelComponente]="valorDesdeElDOM"
     bind-propiedadDelComponente="valorDesdeElDOM"
     -->
-    <mat-grid-list [cols]="2" bind-rowHeight="'200px'" [gutterSize]="'10px'">
-      <mat-grid-tile *ngFor="let item of items" [routerLink]="['/itemdetail', item.id]">
-        <img height="200px" data-src="data:image/png;base64,{{item.image}}"
-             alt={{item.name}}>
+    <mat-grid-list [cols]="3" rowHeight="2:1">
+      <mat-grid-tile *ngFor="let item of items">
+        <section style="display: flex;margin-bottom: auto;overflow-x: scroll;
+    ">
+        <img *ngFor="let image of item.images" height="180px" data-src="data:image/png;base64,{{image.image}}"
+             alt={{item.marca}} style="margin-bottom: auto;">
+            </section>
         <mat-grid-tile-footer>
-          <h1 mat-line>{{item.name | uppercase}}</h1>
+          <h1 mat-line>{{item.marca | uppercase}}</h1>
+          <button style="color:red" (click)="Delete(item)" mat-button>Eliminar</button>
+          <button mat-button [routerLink]="['/itemdetail', item.id]">Editar</button>
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>

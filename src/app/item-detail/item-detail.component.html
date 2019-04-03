@@ -1,42 +1,73 @@
-<div class="container"
-     fxLayout="row"
-     fxLayout.sm="column"
-     fxLayout.xs="column"
-     fxLayoutAlign.gt-md="space-around center"
-     fxLayoutGap="10px"
-     fxLayoutGap.xs="0">
-  <div fxFlex="40" *ngIf="item">
-    <mat-card>
-      <mat-card-title-group>
-        <mat-card-title>
-          <h3>{{item.name | uppercase}}</h3>
-        </mat-card-title>
-      </mat-card-title-group>
-      <img matCardImage src={{item.image}} alt={{item.name}}>
-      <mat-card-content>
-        <p>{{item.description}}
-        </p>
-      </mat-card-content>
-      <mat-card-actions align="start">
-        <button mat-button [routerLink]="['/itemdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
-        <button mat-button (click)="goBack()">BACK</button>
-        <button mat-button (click)="onAction($event)">LIKE</button>
-        <button mat-button (click)="onAction($event)">SHARE</button>
-        <span class="flex-spacer"></span>
-        <button mat-button [routerLink]="['/itemdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
-      </mat-card-actions>
-    </mat-card>
+<div *ngIf="existItem">
+<form novalidate (ngSubmit)="onSubmit()" #loginForm="ngForm">
 
-  </div>
-
-  <div fxFlex="40" *ngIf="item && item.comments">
-    <h1>Comments</h1>
-    <mat-list>
-      <mat-list-item *ngFor="let comment of item.comments">
-        <p matLine>{{comment.comment}}</p>
-        <p matLine>{{comment.rating}} Stars</p>
-        <p matLine>-- {{comment.author}} {{comment.date | date}}</p>
-      </mat-list-item>
-    </mat-list>
-  </div>
+    <mat-dialog-content>
+      <p>
+        <mat-form-field color="{{marca.invalid && !marca.pristine ? 'warn' : 'primary'}}">
+          <input matInput placeholder="Marca" type="text" [(ngModel)]="item.marca" name="marca"
+                 #marca="ngModel" required>
+          <mat-hint>
+           <span [hidden]="marca.pristine">
+              <span [hidden]="!marca.errors?.required">marca is required</span>
+           </span>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field color="{{modelo.invalid && !modelo.pristine ? 'warn' : 'primary'}}">
+          <input matInput placeholder="Modelo" type="text" [(ngModel)]="item.modelo" name="modelo"
+                 #modelo="ngModel" required>
+          <mat-hint>
+           <span [hidden]="modelo.pristine">
+            <span [hidden]="!modelo.errors?.required">modelo is required</span>
+           </span>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field color="{{capacidad.invalid && !capacidad.pristine ? 'warn' : 'primary'}}">
+          <input matInput placeholder="Capacidad" type="text" [(ngModel)]="item.capacidad" name="capacidad"
+                 #capacidad="ngModel" required>
+          <mat-hint>
+           <span [hidden]="capacidad.pristine">
+           <span [hidden]="!capacidad.errors?.required">capacidad is required</span>
+           </span>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field color="{{precio.invalid && !precio.pristine ? 'warn' : 'primary'}}">
+          <input matInput placeholder="Precio" type="text" [(ngModel)]="item.precio" name="precio"
+                 #precio="ngModel" required>
+          <mat-hint>
+           <span [hidden]="precio.pristine">
+           <span [hidden]="!precio.errors?.required">precio is required</span>
+           </span>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select name="tipoMaquinaria">
+            <mat-option *ngFor="let tipo of listaTipos" [value]="tipo.id">
+              {{tipo.nombreTipoMaquinaria}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
+      <p>
+        <label class="image-upload-container btn btn-bwm">
+          <span>Select Image</span>
+          <input #imageInput
+                 type="file"
+                 accept="image/*"
+                 (change)="processFile(imageInput)">
+        </label>
+      </p>
+      <p>
+          <img *ngFor="let image of item.images" height="180px" data-src="data:image/png;base64,{{image.image}}"
+          alt={{item.marca}} style="margin-bottom: auto;">
+      </p>
+    </mat-dialog-content>
+  
+    <mat-dialog-actions>
+      <span class="flex-spacer"></span>
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="loginForm.form.invalid">
+        Guardar
+      </button>
+    </mat-dialog-actions>
+  </form>
 </div>
